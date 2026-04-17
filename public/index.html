@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WatchParty — Sync & Stream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <div id="lobby">
+    <div class="lobby-card">
+      <div class="lobby-logo">Watch<span>Party</span> ◈</div>
+      <h1>Watch Together,<br>In Sync.</h1>
+      <p>Create a private room or join one with a Room ID.</p>
+
+      <div class="field">
+        <label>Your Name</label>
+        <input id="username-input" type="text" placeholder="e.g. Alex" maxlength="24" autocomplete="off" />
+      </div>
+
+      <button class="btn btn-primary" id="create-btn">✦ Create New Room</button>
+
+      <div class="divider">or join existing</div>
+
+      <div class="field">
+        <label>Room ID</label>
+        <input id="room-input" type="text" placeholder="Paste Room ID here" maxlength="20" autocomplete="off" />
+      </div>
+      <button class="btn btn-secondary" id="join-btn">Join Room →</button>
+    </div>
+  </div>
+
+  <div id="app">
+
+    <div id="topbar">
+      <span class="topbar-logo">◈ WatchParty</span>
+      <div class="topbar-room">
+        <span class="pill">Room</span>
+        <span id="topbar-room-id">—</span>
+        <button class="copy-btn" id="copy-btn" title="Copy Room ID">⎘</button>
+      </div>
+      <div id="admin-badge" class="admin-badge">👑 Host</div>
+      <div class="topbar-status">
+        <div class="status-dot"></div>
+        <span id="user-count">0 watching</span>
+      </div>
+    </div>
+
+    <div id="main">
+
+      <div id="video-wrap">
+        <video id="video-player" controls style="display: block;"></video>
+        
+        <div id="yt-player-container" style="display: none; position: absolute; inset: 0; width: 100%; height: 100%;"></div>
+
+        <div class="no-src-overlay" id="no-src">
+          <div class="no-src-icon">🎬</div>
+          <span>Waiting for host to load a video…</span>
+        </div>
+        <div id="sync-badge">⟳ Synced</div>
+      </div>
+
+      <div id="admin-bar">
+        <label>SRC</label>
+        <input id="src-input" type="text" placeholder="Paste YouTube link or Direct MP4 URL..." />
+        <button id="src-btn">Load URL</button>
+        
+        <input type="file" id="local-file-input" accept="video/*" style="display: none;" />
+        <button id="local-btn" style="background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 9px 15px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px;">📁 Local</button>
+      </div>
+
+      <div id="sample-bar">
+        <span class="sample-label">Quick load:</span>
+        <span class="sample-btn" data-src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">Big Buck Bunny</span>
+        <span class="sample-btn" data-src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4">Elephants Dream</span>
+      </div>
+
+      <div id="viewer-note" class="viewer-note">🔒 Only the host can control the video</div>
+
+    </div>
+
+    <div id="sidebar">
+      <div class="sidebar-tabs">
+        <button class="tab-btn active" data-tab="chat">Chat</button>
+        <button class="tab-btn" data-tab="users">People</button>
+      </div>
+
+      <div class="tab-pane active" id="tab-chat">
+        <div id="chat-messages"></div>
+        <div class="chat-input-wrap">
+          <input id="chat-input" type="text" placeholder="Say something…" maxlength="500" />
+          <button id="chat-send">↑</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-users">
+        <div id="users-list"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/VideoAdapter.js"></script>
+  <script src="/js/app.js"></script>
+
+  <script>
+    // Local File Picker Logic
+    document.getElementById('local-btn').onclick = () => document.getElementById('local-file-input').click();
+  </script>
+
+</body>
+</html>
